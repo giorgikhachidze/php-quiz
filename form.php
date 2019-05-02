@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 require_once 'questions.php';
 
@@ -15,9 +16,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         {
             $correctAnswers++;
 
-            echo "<p>{$questions[$questionIndex]['title']}</p>";
+            echo "<p><b>სწორია</b>: {$questions[$questionIndex]['title']}</p>";
+        } else {
+            echo "<p><b>არასწორია</b>: {$questions[$questionIndex]['title']}</p>";
         }
     }
 
-    echo "<p>სწორი პასუხების რაოდენობა: {$correctAnswers}</p>";
+    echo "<p>სწორად უპასუხეთ: {$correctAnswers} შეკითხვას</p>";
+    echo "<p>შეფასება: {$correctAnswers} ქულა</p>";
+
+    $_SESSION['points'] = $correctAnswers;
+
 }
+
+echo '<a href="/index.php">უკან დაბრუნება</a>';
