@@ -2,30 +2,35 @@
 
 require_once 'questions.php';
 
-$quizz     = new Quizz();
-$questions = $quizz->questions;
+$quiz     = new Quiz();
+$questions = $quiz->questions;
 
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Quizz</title>
+    <title>Quiz</title>
 </head>
 <body>
-
-    <form action="" method="post">
-        <?php foreach ( $questions as $question) : ?>
+    <h1>PHP ქვიზი</h1>
+    <form action="/form.php" method="post">
+        <?php foreach ( $questions as $questionIndex => $question) : ?>
             <p>
                 <?php echo $question['title']; ?>
 
                 <ul>
-                    <?php foreach ( $question['answers'] as $answer ) : ?>
-                    <li><?php echo $answer; ?></li>
+                    <?php foreach ( $question['answers'] as $answerIndex => $answer ) : ?>
+                    <li>
+                        <input type="radio" name="answer[<?=$questionIndex?>]" value="<?=$answerIndex?>">
+                        <?php echo $answer; ?>
+                    </li>
                     <?php endforeach; ?>
                 </ul>
             </p>
         <?php endforeach; ?>
+
+        <button type="submit" name="button">გაგზავნა</button>
     </form>
 
 </body>

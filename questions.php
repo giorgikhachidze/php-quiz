@@ -1,47 +1,47 @@
 <?php
 
-class Quizz
+class Quiz
 {
     public $questions = [
         [
-            'title' => 'შეკითხვა 1',
+            'title' => 'რა არის PHP?',
             'answers' => [
-                'პასუხი 1',
-                'პასუხი 2',
-                'პასუხი 3',
-                'პასუხი 4'
+                'ჰიპერტექსტის პრეპროცესორი',
+                'პირადი საწყისი გვერდი',
+                'პირადი ჰიპერტექსტის პროცესორი',
+                'საწყისი გვერდი'
             ],
-            'correct_answer' => 0
+            'correctAnswer' => 0
         ],
         [
-            'title' => 'შეკითხვა 2',
+            'title' => 'PHP კოდი რომელი ნიშნების შიგნით მუშაობს?',
             'answers' => [
-                'პასუხი 1',
-                'პასუხი 2',
-                'პასუხი 3',
-                'პასუხი 4'
+                '&lt;script> ... &lt;/script&gt',
+                '&lt;&> ... &lt;/&&gt;',
+                '&lt;?php ... ?&gt;',
+                '&lt;?php ... &lt;/?&gt;'
             ],
-            'correct_answer' => 0
+            'correctAnswer' => 2
         ],
         [
-            'title' => 'შეკითხვა 3',
+            'title' => 'როგორ დავბეჭდოთ ტექსტი PHP - ით?',
             'answers' => [
-                'პასუხი 1',
-                'პასუხი 2',
-                'პასუხი 3',
-                'პასუხი 4'
+                'Document.write("Hello World");',
+                'echo "Hello word";',
+                '"Hello World";',
+                'println!("Hello world!");'
             ],
-            'correct_answer' => 0
+            'correctAnswer' => 1
         ],
         [
-            'title' => 'შეკითხვა 4',
+            'title' => 'როგორ იწყება ცვლადის სახელი PHP - ში?',
             'answers' => [
-                'პასუხი 1',
-                'პასუხი 2',
-                'პასუხი 3',
-                'პასუხი 4'
+                '$variable',
+                '!variable',
+                '&variable',
+                'variable'
             ],
-            'correct_answer' => 0
+            'correctAnswer' => 0
         ]
     ];
 }
