@@ -1,9 +1,9 @@
 <?php
+
 session_start();
 
 require_once 'questions.php';
 
-// კლასის მასივში გამოძახება
 $quiz = new Quiz();
 
 // ინახება მასივი, რომელიც წამოღებულია კლასის ცვლადიდან $questions = array
