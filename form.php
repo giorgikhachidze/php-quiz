@@ -3,30 +3,76 @@ session_start();
 
 require_once 'questions.php';
 
-$quiz     = new Quiz();
+// კლასის მასივში გამოძახება
+$quiz = new Quiz();
+
+// ინახება მასივი, რომელიც წამოღებულია კლასის ცვლადიდან $questions = array
 $questions = $quiz->questions;
 
+// ცვლადში ვწერთ მთავარი მასივის ინდექსების რაოდენობას ამშემთხვევაში = 4 - ს.
+$questionCount = count($questions);
+
+// ამოწმებს პირველ რიგში იყო თუარა POST გამოშვებული და თუ ყველა კითხვა იყო მონიშნული
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    $correctAnswers = 0;
+    // ამოწმებს ცარიელია თუ არა გამოგზავნილი მასივის ინფორმაცია თუ ცარიელია არ შესრულდება
+    if (!empty($_POST)) {
 
-    foreach ($_POST['answer'] as $questionIndex => $answerIndex)
-    {
-        if ($questions[$questionIndex]['correctAnswer'] == $answerIndex)
-        {
-            $correctAnswers++;
+        // ცვლადში ვწერთ მასივის ინდექსების რაოდენობას რომელიც მონიშნა მომხმარებელმა
+        $postArrayCount = count($_POST['answer']);
 
-            echo "<p><b>სწორია</b>: {$questions[$questionIndex]['title']}</p>";
+        /**
+         * ფუნქცია checkArray რომელიც Quiz კლასშია აღწერილი იღებს ციფრებს ზემოთ გამოცხადებული ცვლადებიდან
+         * და აბრუნებს true ან false
+         */
+        if ($quiz->checkArray($questionCount, $postArrayCount)) {
+            // თავდაპირველად ვანიჭებთ ნულ მნიშვნელობას, რომ მერე ციკლში გავზარდოთ და მივიღოთ სწორი პასუხების რაოდენობა
+            $correctAnswers = 0;
+
+            /**
+             * იწყება მომხმარებლის მხრიდან წამოსული მასივის ციკლი
+             * $_POST['answer'] არის მასივი კითხვებისა და მონიშნული პასუხების
+             * მაგ: [0] => 1 ანუ პირველი კითხვაზე გასცა მომხმარებელმა მეორე პასუხი და ა.შ.
+             * აქედან ვიღებთ [0] როგორც $questionIndex და 1 როგორც $answerIndex
+             */
+            foreach ($_POST['answer'] as $questionIndex => $answerIndex)
+            {
+                /**
+                 * ხდება შედარება მთავარი მასივის სწორი პასუხი თუ ემთხვევა ციკლში არსებულ პასუხს.
+                 * მაგ: POST - იდან წამოსული გაცემული პასუხის ინდექსი ანუ ზემოთ მაგალითიდან [0] => 1
+                 * თუ ეს 1 დაემთხვა მთავარ მასივში მყოფ correctAnswer - ის ციფრს ესეეკი სწორად უპასუხა
+                 * და მოხდება 1 ით გაზრდა $correctAnswers - ის.
+                 */
+                if ($questions[$questionIndex]['correctAnswer'] == $answerIndex)
+                {
+                    // იზრდება +1 ით თავდაპირველი ცვლადის მნიშვნელობა $correctAnswers = >>0<<
+                    $correctAnswers++;
+
+                    // გამოაქვს სწორად გაცემული კითხვები და დაუწერს ყველას წინ რომ სწორია მუქად.
+                    echo "<p><b>სწორია</b>: {$questions[$questionIndex]['title']}</p>";
+                }else {
+                    // გამოაქვს არასწორად გაცემული კითხვები და დაუწერს ყველას წინ რომ არასწორია მუქად.
+                    echo "<p><b>არასწორია</b>: {$questions[$questionIndex]['title']}</p>";
+                }
+            }
+
+            // გამოაქვს სწორად ნაპასუხები კითხვების რაოდენობა.
+            echo "<p>სწორად უპასუხეთ: {$correctAnswers} შეკითხვას</p>";
+            // გამოაქვს მიღებული ქულის რაოდენობა იგივეა რაც სწორად ნაპასუხები კითხვების რაოდენობა
+            echo "<p>შეფასება: {$correctAnswers} ქულა</p>";
+
+            // სესიაში შენახვა ქულების რაოდენობის
+            $_SESSION['points'] = $correctAnswers;
+
+            echo '<a href="/index.php">უკან დაბრუნება</a>';
         } else {
-            echo "<p><b>არასწორია</b>: {$questions[$questionIndex]['title']}</p>";
+            echo "<h1>გთხოვთ შეავსოთ ყველა კითხვა</h1>";
+            echo '<a href="/index.php">უკან დაბრუნება</a>';
         }
+
+    } else {
+        echo "<h1>გთხოვთ შეავსოთ ყველა კითხვა</h1>";
+        echo '<a href="/index.php">უკან დაბრუნება</a>';
     }
 
-    echo "<p>სწორად უპასუხეთ: {$correctAnswers} შეკითხვას</p>";
-    echo "<p>შეფასება: {$correctAnswers} ქულა</p>";
-
-    $_SESSION['points'] = $correctAnswers;
-
 }
-
-echo '<a href="/index.php">უკან დაბრუნება</a>';

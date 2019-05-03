@@ -21,18 +21,18 @@ $questions = $quiz->questions;
                 <p>
                     <?php echo $question['title']; ?>
 
-                <ul>
+                <ol>
                     <?php foreach ( $question['answers'] as $answerIndex => $answer ) : ?>
                         <li>
                             <input type="radio" name="answer[<?=$questionIndex?>]" value="<?=$answerIndex?>">
                             <?php echo $answer; ?>
                         </li>
                     <?php endforeach; ?>
-                </ul>
+                </ol>
                 </p>
             <?php endforeach; ?>
 
-            <button type="submit" name="button">გაგზავნა</button>
+            <button type="submit">გაგზავნა</button>
         </form>
     <?php else: ?>
     <h1>თქვენ უკვე შეავსეთ ქვიზი</h1>
